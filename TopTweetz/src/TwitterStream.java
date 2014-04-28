@@ -31,8 +31,14 @@ public class TwitterStream {
 	private static final String CONSUMER_KEY = "yP805mjDiURC1Zy0uwEEm7L7E";
 	private static final String CONSUMER_SECRET = "eiWc6Xh3k9atjYkzQqDcEXeQawP7ad9aVRmwfDOE2JCHB6XSl1";
 	
-	private static final String PARAM_LOCATIONS = "locations";
-	private static final String PARAM_LOCATIONS_WHOLE_WORLD = "-180,-90,180,90";
+	/*
+	 * Using the 'locations' parameter will return tweets for a geo-graphic region, but not retweets.
+	 * Therefore, we will use the 'track' parameter and specify every letter of the alphabet and digits 
+	 * as the value. This will ensure any English language tweets are collected. Tweets that do not 
+	 * include any of the English letters or numbers will, however, not be included.
+	 */
+	private static final String PARAM_TRACK = "track";
+	private static final String PARAM_TRACK_VALUE = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9";
 	
 	private static final int CHUNK_DURATION_IN_SECONDS = 1;
 	
@@ -47,7 +53,7 @@ public class TwitterStream {
 			paramMap.put("oauth_signature_method", "HMAC-SHA1");
 			paramMap.put("oauth_timestamp", String.valueOf(System.currentTimeMillis()/1000));
 			paramMap.put("oauth_version", "1.0");
-			paramMap.put(PARAM_LOCATIONS, PARAM_LOCATIONS_WHOLE_WORLD);
+			paramMap.put(PARAM_TRACK, PARAM_TRACK_VALUE);
 			
 			StringBuilder authorizationHeader = new StringBuilder("OAuth ");
 			for (String key : paramMap.keySet()) {
@@ -63,7 +69,7 @@ public class TwitterStream {
 			
 			StringBuilder url = new StringBuilder();
 			try {
-				url.append(STREAM_URL).append("?").append(PARAM_LOCATIONS).append("=").append(URLEncoder.encode(PARAM_LOCATIONS_WHOLE_WORLD, "UTF-8"));
+				url.append(STREAM_URL).append("?").append(PARAM_TRACK).append("=").append(URLEncoder.encode(PARAM_TRACK_VALUE, "UTF-8"));
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
 			}

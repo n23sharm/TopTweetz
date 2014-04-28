@@ -11,6 +11,11 @@ public class Tweet {
 		this.mRetweetCount = retweetCount;
 		this.mRetweet = retweet;
 	}
+	
+	public Tweet makeCopy() {
+		Tweet retweet = this.getRetweet() == null ? null : this.getRetweet().makeCopy();
+		return new Tweet(this.getId(), this.getText(), this.getRetweetCount(), retweet);
+	}
 
 	public long getId() {
 		return mId;
